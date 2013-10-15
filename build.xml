@@ -1,0 +1,75 @@
+<project name="AetherIO" default="build" basedir=".">
+    <description>
+	Build file for AetherIO
+    </description>
+
+    <property name="src" location="src" />
+    <property name="compile" location="compile" />
+    <property name="tmp" location="tmp" />
+    <property name="lib" location="lib" />
+    <property name="javadoc" location="doc/javadoc" />
+    <property name="dist" location="dist" />
+
+    <property name="build.sysclasspath" value="ignore"/>
+
+    <property name="version-tag" value="1.0" />
+
+    <property name="jar" location="${dist}/${ant.project.name}-${version-tag}.jar" />
+    <property name="sources" value="${dist}/${ant.project.name}-src-${version-tag}.zip" />
+
+    <path id="external_jars">
+        <fileset dir="${lib}">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <target name="build" description="Build the AetherIO distribution.">
+        <!-- Create the time stamp -->
+        <tstamp />
+
+        <!-- Create the build directory structure used by compile -->
+        <delete dir="${tmp}" />
+        <mkdir dir="${dist}" />
+        <mkdir dir="${tmp}" />
+
+        <!-- Compile the java code from ${src} into ${compile} -->
+        <javac srcdir="src" destdir="${tmp}" debug="on">
+            <classpath refid="external_jars" />
+	    <!-- <compilerarg value="-Xlint:unchecked" /> -->
+        </javac>
+
+        <!-- Put everything in ${compile} into the jar file -->
+        <jar jarfile="${jar}" basedir="${tmp}">
+            <manifest>
+                <attribute name="Ibisc-Component" value="nl.esciencecenter.aether.io.rewriter.ASMIOGenerator" />
+            </manifest>
+            <metainf dir=".." includes="LICENSE.txt" />
+        </jar>
+
+        <!-- create a zip file with the sources -->
+        <zip destfile="${sources}">
+            <zipfileset dir="src" includes="**/*.java" />
+            <zipfileset dir="." includes="LICENSE"/>
+        </zip>
+
+        <!-- And delete the build dir -->
+        <delete dir="${tmp}" />
+    </target>
+
+    <target name="javadoc" description="create javadoc">
+        <delete dir="${javadoc}" />
+        <mkdir dir="${javadoc}" />
+
+        <javadoc destdir="${javadoc}" access="public" sourcepath="${src}">
+            <classpath refid="external_jars" />
+	    <link href="http://download.oracle.com/javase/1.7.0/docs/api/" />
+        </javadoc>
+    </target>
+
+    <target name="clean" description="clean up">
+        <delete dir="${dist}" />
+        <delete dir="${tmp}" />
+        <delete dir="${javadoc}" />
+    </target>
+
+</project>
