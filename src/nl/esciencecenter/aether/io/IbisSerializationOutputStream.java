@@ -103,7 +103,7 @@ public class IbisSerializationOutputStream
     private int next_type;
 
     /** Hashtable for types already put on the stream. */
-    private IbisHash types = new IbisHash();
+    private ObjectToIntHash types = new ObjectToIntHash();
 
     /**
      * There is a notion of a "current" object. This is needed when a

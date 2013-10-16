@@ -35,8 +35,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
 
     boolean silent = false;
 
-    boolean use_jme = false;
-
     Vector<JavaClass> classes_to_rewrite, target_classes, classes_to_save;
 
     HashMap<String, JavaClass> arguments;
@@ -63,10 +61,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
 
     protected boolean forceGeneratedCalls() {
         return force_generated_calls;
-    }
-
-    protected boolean useJME() {
-        return use_jme;
     }
 
     private boolean removeTarget(JavaClass clazz) {
@@ -117,7 +111,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
         this.file = file;
         this.force_generated_calls = force_generated_calls;
         this.silent = silent;
-        this.use_jme = use_jme;
     }
 
     public boolean processArgs(ArrayList<String> args) {
@@ -125,11 +118,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
             String arg = args.get(i);
             if (arg.equals("-iogen-force")) {
                 force_generated_calls = true;
-                args.remove(i);
-                i--;
-            }
-            if (arg.equals("-jme")) {
-                use_jme = true;
                 args.remove(i);
                 i--;
             }
@@ -149,20 +137,11 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
             arguments.put(cl.getClassName(), cl);
         }
         for (JavaClass cl : arguments.values()) {
-            if (useJME()) {
-                if (JMESerializationInfo.isJMESerializable(cl)) {
-                    if (! JMESerializationInfo.isJMERewritten(cl)) {
-                        addClass(cl);
-                    }
-                }
-            }
-            else {
                 if (SerializationInfo.isSerializable(cl)) {
                     if (! SerializationInfo.isIbisSerializable(cl)) {
                         addClass(cl);
                     }
                 }
-            }
         }
         for (int i = 0; i < classes_to_rewrite.size(); i++) {
             JavaClass clazz = classes_to_rewrite.get(i);
@@ -174,12 +153,7 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
 
         for (int i = 0; i < classes_to_rewrite.size(); i++) {
             JavaClass clazz = classes_to_rewrite.get(i);
-            if (useJME()) {
-                new JMECodeGenerator(this, clazz).generateEmptyMethods();
-            }
-            else {
-                new CodeGenerator(this, clazz).generateEmptyMethods();
-            }
+            new CodeGenerator(this, clazz).generateEmptyMethods();
         }
 
         if (verbose) {
@@ -199,12 +173,7 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
                     System.out.println("  Rewrite class : "
                             + clazz.getClassName());
                 }
-                if (useJME()) {
-                    new JMECodeGenerator(this, clazz).generateCode();
-                }
-                else {
-                    new CodeGenerator(this, clazz).generateCode();
-                }
+                new CodeGenerator(this, clazz).generateCode();
             }
         }
     }
@@ -214,21 +183,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
     }
 
     private void addTargetClass(JavaClass clazz) {
-        if (useJME()) {
-            if (verbose) {
-                System.out.println("Considering target: " + clazz.getClassName());
-            }
-            if (!target_classes.contains(clazz)) {
-                String nm = clazz.getClassName();
-                if (arguments.containsKey(nm)) {
-                    target_classes.add(clazz);
-                    if (verbose) {
-                        System.out.println("Adding jme target class : " + nm);
-                    }
-                }
-            }			
-        }
-        else {
             if (!target_classes.contains(clazz) && !SerializationInfo.isIbisSerializable(clazz)) {
                 String nm = clazz.getClassName();
                 if (arguments.containsKey(nm)) {
@@ -238,7 +192,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
                     }
                 }
             }
-        }
     }
 
     private void addRewriteClass(Type t, JavaClass clazz) {
@@ -257,16 +210,7 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
     }
 
     private void addRewriteClass(JavaClass clazz) {
-        if (useJME()) {
-            if (!classes_to_rewrite.contains(clazz) && JMESerializationInfo.isJMESerializable(clazz) && !JMESerializationInfo.isJMERewritten(clazz)) {
-                classes_to_rewrite.add(clazz);
-                if (verbose) {
-                    System.out.println("Adding jme rewrite class : "
-                            + clazz.getClassName());
-                }
-            }
-        } else {
-            if (!classes_to_rewrite.contains(clazz) && !SerializationInfo.isIbisSerializable(clazz)) {
+        if (!classes_to_rewrite.contains(clazz) && !SerializationInfo.isIbisSerializable(clazz)) {
                 classes_to_rewrite.add(clazz);
 
                 /*
@@ -280,7 +224,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
                             + clazz.getClassName());
                 }
             }
-        }
     }
 
     private void addClass(JavaClass clazz) {
@@ -319,25 +262,6 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
 
             if (super_classes != null) {
                 for (int i = 0; i < super_classes.length; i++) {
-                    if (useJME()) {
-                        if (JMESerializationInfo.isJMESerializable(super_classes[i])) {
-                            serializable = true;
-                            if (!JMESerializationInfo.isJMERewritten(super_classes[i])) {
-                                if (!local
-                                        || clazz.getPackageName().equals(
-                                                super_classes[i].getPackageName())) {
-                                    addRewriteClass(super_classes[i]);
-                                }
-                            } else {
-                                if (verbose) {
-                                    System.out.println(clazz.getClassName()
-                                            + " already implements "
-                                            + JMERewriterConstants.TYPE_IBIS_IO_JME_JMESERIALIZABLE);
-                                }
-                            }
-                        }
-                    }
-                    else {
                         if (SerializationInfo.isSerializable(super_classes[i])) {
                             serializable = true;
                             if (!SerializationInfo.isIbisSerializable(super_classes[i])) {
@@ -354,15 +278,9 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
                                 }
                             }
                         }
-                    }
                 }
             }
-            if (useJME()) {
-                serializable |= JMESerializationInfo.isJMESerializable(clazz);
-            }
-            else {
-                serializable |= SerializationInfo.isSerializable(clazz);
-            }
+            serializable |= SerializationInfo.isSerializable(clazz);
         } else {
             serializable = true;
         }
@@ -523,12 +441,7 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
 
         for (int i = 0; i < classes_to_rewrite.size(); i++) {
             JavaClass clazz = classes_to_rewrite.get(i);
-            if (useJME()) {
-                new JMECodeGenerator(this, clazz).generateEmptyMethods();
-            }
-            else {
-                new CodeGenerator(this, clazz).generateEmptyMethods();
-            }
+            new CodeGenerator(this, clazz).generateEmptyMethods();
         }
 
         if (verbose) {
@@ -545,12 +458,7 @@ public class IOGenerator extends nl.esciencecenter.aether.compile.IbiscComponent
                     System.out.println("  Rewrite class : "
                             + clazz.getClassName());
                 }
-                if (useJME()) {
-                    new JMECodeGenerator(this, clazz).generateCode();
-                }
-                else {
-                    new CodeGenerator(this, clazz).generateCode();
-                }
+                new CodeGenerator(this, clazz).generateCode();
             }
         }
 

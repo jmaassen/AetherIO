@@ -12,7 +12,7 @@ import nl.esciencecenter.aether.util.Timer;
  *   responsible for locking the hash.
  * + Hash table size is always a power of two for fast modulo calculations.
  */
-final class IbisHash {
+final class ObjectToIntHash {
 
     private static final boolean ASSERTS
             = IOProperties.properties.getBooleanProperty(IOProperties.s_hash_asserts);
@@ -73,11 +73,11 @@ final class IbisHash {
 
     private int present = 0;
 
-    IbisHash() {
+    ObjectToIntHash() {
         this(MIN_BUCKETS);
     }
 
-    IbisHash(int sz) {
+    ObjectToIntHash(int sz) {
         int x = 1;
         while (x < sz) {
             x <<= 1;

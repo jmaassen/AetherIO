@@ -9,8 +9,7 @@ import java.io.IOException;
  * Provides for methods to read data from an underlying implementation.
  * Calls to read functions may block until data is available.
  */
-public abstract class DataInputStream extends java.io.InputStream
-        implements DataInput {
+public abstract class DataInputStream extends java.io.InputStream implements DataInput {
 
     public abstract void close() throws IOException;
 
