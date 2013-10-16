@@ -138,7 +138,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldBoolean.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -146,7 +146,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldByte.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -154,7 +154,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldChar.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -163,7 +163,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldObject.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -172,7 +172,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldDouble.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -181,7 +181,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldFloat.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -189,7 +189,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldInt.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -197,7 +197,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldLong.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -206,7 +206,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldObject.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -215,7 +215,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldShort.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 
@@ -224,7 +224,7 @@ public class ClasspathJavaStuff extends JavaDependantStuff {
 	try {
 	    setFieldObject.invoke(objectStreamClass.getField(fieldname), ref, d);
 	} catch (Throwable e) {
-	    throw new IbisIOException("Got exception", e);
+	    throw new IOException("Got exception", e);
 	}
     }
 }

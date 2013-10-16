@@ -60,23 +60,23 @@ public class SerializationFactory {
                     cl.getConstructor(new Class[] {DataInputStream.class});
             return (SerializationInput) cons.newInstance(new Object[] {in});
         } catch(ClassNotFoundException e) {
-            throw new IbisIOException("No such class: " + impl, e);
+            throw new IOException("No such class: " + impl, e);
         } catch(NoSuchMethodException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "No suitable constructor in class: " + impl, e);
         } catch(IllegalArgumentException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "No suitable constructor in class: " + impl, e);
         } catch(InstantiationException e) {
-            throw new IbisIOException("class " + impl + " is abstract", e);
+            throw new IOException("class " + impl + " is abstract", e);
         } catch(InvocationTargetException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "constructor of " + impl + " threw an exception", e.getCause());
         } catch(IllegalAccessException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "access to constructor of " + impl + " is denied", e);
         } catch(Throwable e) {
-            throw new IbisIOException("got unexpected error", e);
+            throw new IOException("got unexpected error", e);
         }
     }
 
@@ -95,23 +95,23 @@ public class SerializationFactory {
                     cl.getConstructor(new Class[] {DataOutputStream.class});
             return (SerializationOutput) cons.newInstance(new Object[] {out});
         } catch(ClassNotFoundException e) {
-            throw new IbisIOException("No such class: " + impl, e);
+            throw new IOException("No such class: " + impl, e);
         } catch(NoSuchMethodException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "No suitable constructor in class: " + impl, e);
         } catch(IllegalArgumentException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "No suitable constructor in class: " + impl, e);
         } catch(InstantiationException e) {
-            throw new IbisIOException("class " + impl + " is abstract", e);
+            throw new IOException("class " + impl + " is abstract", e);
         } catch(InvocationTargetException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "constructor of " + impl + " threw an exception", e.getCause());
         } catch(IllegalAccessException e) {
-            throw new IbisIOException(
+            throw new IOException(
                     "access to constructor of " + impl + " is denied", e);
         } catch(Throwable e) {
-            throw new IbisIOException("got unexpected error", e);
+            throw new IOException("got unexpected error", e);
         }
     }
 }

@@ -874,7 +874,7 @@ public class IbisSerializationOutputStream
                 if (DEBUG && logger.isDebugEnabled()) {
                     logger.debug("now rethrow as IllegalAccessException ...");
                 }
-                throw new IbisIllegalAccessException("writeObject method", e);
+                throw new NotSerializableException("writeObject method", e);
             }
             return;
         }
@@ -955,7 +955,7 @@ public class IbisSerializationOutputStream
             if (DEBUG && logger.isDebugEnabled()) {
                 logger.debug("Caught exception, rethrow as NotSerializableException", e);
             }
-            throw new IbisNotSerializableException("Serializable failed for : "
+            throw new NotSerializableException("Serializable failed for : "
                     + classname, e);
         }
     }
@@ -1162,7 +1162,7 @@ public class IbisSerializationOutputStream
             if (DEBUG && logger.isDebugEnabled()) {
                 logger.debug("Caught exception, rethrow as NotSerializableException", e);
             }
-            throw new IbisNotSerializableException("illegal access", e);
+            throw new NotSerializableException("illegal access", e);
         }
     }
 
@@ -1227,10 +1227,10 @@ public class IbisSerializationOutputStream
                     if (DEBUG && logger.isDebugEnabled()) {
                         logger.debug("Caught exception, rethrow as NotSerializableException", e);
                     }
-                    throw new IbisNotSerializableException("illegal access", e);
+                    throw new NotSerializableException("illegal access", e);
                 }
             } else {
-                throw new IbisNotSerializableException("Not Serializable : "
+                throw new NotSerializableException("Not Serializable : "
                         + clazz.getName());
             }
         }

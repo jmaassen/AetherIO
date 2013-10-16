@@ -105,7 +105,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutDoubleMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -120,7 +120,7 @@ class SunJavaStuff extends JavaDependantStuff {
             unsafePutLongMethod.invoke(unsafe, ref, key, d);
             return;
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -134,7 +134,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutFloatMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -148,7 +148,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutIntMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -162,7 +162,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutShortMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -176,7 +176,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutCharMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -190,7 +190,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutByteMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -204,7 +204,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutBooleanMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -218,7 +218,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutObjectMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -233,7 +233,7 @@ class SunJavaStuff extends JavaDependantStuff {
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutObjectMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -248,12 +248,12 @@ class SunJavaStuff extends JavaDependantStuff {
         try {
             Field f = clazz.getDeclaredField(fieldname);
             if (d != null && !f.getType().isInstance(d)) {
-                throw new IbisIOException("wrong field type");
+                throw new IOException("wrong field type");
             }
             Object key = unsafeObjectFieldOffsetMethod.invoke(unsafe, f);
             unsafePutObjectMethod.invoke(unsafe, ref, key, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 

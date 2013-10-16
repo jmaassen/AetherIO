@@ -295,7 +295,7 @@ public final class SunSerializationOutputStream
         } catch (Throwable e) {
             // May throw a SecurityException.
             // Don't know how to deal with that.
-            throw new IbisIOException("enableReplaceObject threw exception: ", e);
+            throw new IOException("enableReplaceObject threw exception: ", e);
         }
         this.replacer = replacer;
     }

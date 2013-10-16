@@ -131,7 +131,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldBoolean.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -139,7 +139,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldByte.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -147,7 +147,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldChar.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -156,7 +156,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldObject.invoke(null, ref, clazz, fieldname, "Ljava.lang.Class;", d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -165,7 +165,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldDouble.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -174,7 +174,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldFloat.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -182,7 +182,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldInt.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -190,7 +190,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldLong.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -199,7 +199,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldObject.invoke(null, ref, clazz, fieldname, fieldsig, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -208,7 +208,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldShort.invoke(null, ref, clazz, fieldname, d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -217,7 +217,7 @@ class DalvikJavaStuff extends JavaDependantStuff {
         try {
             setFieldObject.invoke(null, ref, clazz, fieldname, "Ljava.lang.String;", d);
         } catch (Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 

@@ -7,7 +7,7 @@ import java.io.IOException;
  * The idea is that there is a separate writer for each kind of object,
  * so that runtime tests can be avoided.
  */
-abstract class IbisWriter {
+abstract class ObjectWriter {
     abstract void writeObject(IbisSerializationOutputStream out, Object ref,
             AlternativeTypeInfo t, int hashCode, boolean unshared)
             throws IOException;

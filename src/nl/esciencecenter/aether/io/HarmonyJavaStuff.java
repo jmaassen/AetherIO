@@ -138,12 +138,12 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         }
     }
     
-    private long getFieldID(String name) throws IbisIOException {
+    private long getFieldID(String name) throws IOException {
         // TODO: cache these?
         try {
             return (Long) getFieldID.invoke(accessor, clazz, name);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -164,7 +164,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldBoolean.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -173,7 +173,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldByte.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -182,7 +182,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldChar.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -192,7 +192,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldObject.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -202,7 +202,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldDouble.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -212,7 +212,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldFloat.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
    }
 
@@ -221,7 +221,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldInt.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -230,7 +230,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldLong.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -240,7 +240,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldObject.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -250,7 +250,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldShort.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 
@@ -260,7 +260,7 @@ class HarmonyJavaStuff extends JavaDependantStuff {
         try {
             setFieldShort.invoke(accessor, ref, id, d);
         } catch(Throwable e) {
-            throw new IbisIOException("Got exception", e);
+            throw new IOException("Got exception", e);
         }
     }
 

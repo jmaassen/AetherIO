@@ -7,7 +7,7 @@ import java.io.IOException;
  * The idea is that there is a separate reader for each kind of object,
  * so that runtime tests can be avoided.
  */
-abstract class IbisReader {
+abstract class ObjectReader {
     abstract Object readObject(IbisSerializationInputStream in,
             AlternativeTypeInfo t, int typeHandle)
             throws IOException, ClassNotFoundException;

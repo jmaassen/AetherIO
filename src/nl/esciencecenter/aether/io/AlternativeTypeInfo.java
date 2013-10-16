@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,7 +41,7 @@ final class AlternativeTypeInfo {
     private static HashMap<Class<?>, AlternativeTypeInfo> alternativeTypes
             = new HashMap<Class<?>, AlternativeTypeInfo>();
 
-    private static class ArrayWriter extends IbisWriter {
+    private static class ArrayWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -48,7 +49,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class IbisSerializableWriter extends IbisWriter {
+    private static class IbisSerializableWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -57,7 +58,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class ExternalizableWriter extends IbisWriter {
+    private static class ExternalizableWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -69,7 +70,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class StringWriter extends IbisWriter {
+    private static class StringWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -78,7 +79,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class ClassWriter extends IbisWriter {
+    private static class ClassWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -87,7 +88,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private class EnumWriter extends IbisWriter {
+    private class EnumWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -96,7 +97,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class SerializableWriter extends IbisWriter {
+    private static class SerializableWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
@@ -108,7 +109,7 @@ final class AlternativeTypeInfo {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Caught exception, rethrow as NotSerializableException", e);
                 }
-                throw new IbisNotSerializableException("Serializable failed for : "
+                throw new NotSerializableException("Serializable failed for : "
                         + t.clazz.getName(), e);
             }
             out.pop_current_object();
@@ -116,16 +117,16 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class NotSerializableWriter extends IbisWriter {
+    private static class NotSerializableWriter extends ObjectWriter {
         void writeObject(IbisSerializationOutputStream out, Object ref,
                 AlternativeTypeInfo t, int hashCode, boolean unshared)
                 throws IOException {
-            throw new IbisNotSerializableException("Not serializable: " +
+            throw new NotSerializableException("Not serializable: " +
                     t.clazz.getName());
         }
     }
 
-    private static class IbisSerializableReader extends IbisReader {
+    private static class IbisSerializableReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -133,7 +134,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class ArrayReader extends IbisReader {
+    private static class ArrayReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -141,7 +142,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class StringReader extends IbisReader {
+    private static class StringReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -151,7 +152,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class ClassReader extends IbisReader {
+    private static class ClassReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -163,7 +164,7 @@ final class AlternativeTypeInfo {
     }
 
     @SuppressWarnings("unchecked")
-    private static class EnumReader extends IbisReader {
+    private static class EnumReader extends ObjectReader {
         @SuppressWarnings("rawtypes")
 	Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
@@ -181,7 +182,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class ExternalizableReader extends IbisReader {
+    private static class ExternalizableReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -204,7 +205,7 @@ final class AlternativeTypeInfo {
         }
     }
 
-    private static class SerializableReader extends IbisReader {
+    private static class SerializableReader extends ObjectReader {
         Object readObject(IbisSerializationInputStream in,
                 AlternativeTypeInfo t, int typeHandle)
                 throws IOException, ClassNotFoundException {
@@ -216,7 +217,7 @@ final class AlternativeTypeInfo {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Caught exception, now rethrow as NotSerializableException", e);
                 }
-                throw new IbisNotSerializableException("handle " + typeHandle, e);
+                throw new NotSerializableException("handle " + typeHandle, e);
             }
             in.pop_current_object();
             return obj;
@@ -237,9 +238,9 @@ final class AlternativeTypeInfo {
     /** The sorted list of serializable fields. */
     Field[] serializable_fields;
 
-    final IbisWriter writer;
+    final ObjectWriter writer;
 
-    final IbisReader reader;
+    final ObjectReader reader;
 
     /**
      * For each field, indicates whether the field is final.
@@ -824,7 +825,7 @@ final class AlternativeTypeInfo {
         reader = createReader();
     }
 
-    private IbisWriter createWriter() {
+    private ObjectWriter createWriter() {
         if (isArray) {
             return new ArrayWriter();
         }
@@ -849,7 +850,7 @@ final class AlternativeTypeInfo {
         return new NotSerializableWriter();
     }
 
-    private IbisReader createReader() {
+    private ObjectReader createReader() {
         if (isArray) {
             return new ArrayReader();
         }

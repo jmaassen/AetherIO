@@ -11,6 +11,7 @@ import java.io.ObjectStreamClass;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
     }
 
     /** List of objects, for cycle checking. */
-    private IbisVector objects;
+    private ArrayList<Object> objects;
 
     /** First free object index. */
     private int next_handle;
@@ -71,7 +72,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
     private int next_type = 1;
 
     /** List of types seen sofar. */
-    private IbisVector types;
+    private ArrayList<AlternativeTypeInfo> types;
 
     /**
      * There is a notion of a "current" object. This is needed when a
@@ -145,7 +146,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
      */
     public IbisSerializationInputStream(DataInputStream in) throws IOException {
         super(in);
-        objects = new IbisVector(1024);
+        objects = new ArrayList<Object>(1024);
         init(true);
     }
 
@@ -154,7 +155,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
      */
     protected IbisSerializationInputStream() throws IOException {
         super();
-        objects = new IbisVector(1024);
+        objects = new ArrayList<Object>(1024);
         init(true);
     }
 
@@ -522,7 +523,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
      */
     private void init(boolean do_types) {
         if (do_types) {
-            types = new IbisVector();
+            types = new ArrayList<AlternativeTypeInfo>();
             types.add(0, null); // Vector requires this
             types.add(Constants.TYPE_BOOLEAN, booleanArrayInfo);
             types.add(Constants.TYPE_BYTE, byteArrayInfo);
@@ -874,7 +875,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldDouble(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -888,7 +889,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldLong(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -902,7 +903,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldFloat(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -916,7 +917,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldInt(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -930,7 +931,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldShort(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -944,7 +945,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldChar(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -958,7 +959,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldByte(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -972,7 +973,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldBoolean(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -986,7 +987,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldString(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -1001,7 +1002,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldClass(ref, fieldname, d);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -1017,7 +1018,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             AlternativeTypeInfo t = AlternativeTypeInfo.getAlternativeTypeInfo(classname);
             t.getJavaDependantStuff().setFieldObject(ref, fieldname, d, fieldsig);
         } catch (Throwable ex) {
-            throw new IbisIOException("got exception", ex);
+            throw new IOException("got exception", ex);
         }
     }
 
@@ -1225,7 +1226,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
                 if (DEBUG && logger.isDebugEnabled()) {
                     logger.debug("now rethrow as IllegalAccessException ...");
                 }
-                throw new IbisIllegalAccessException("readObject method", e);
+                throw new NotSerializableException("readObject method", e);
             }
             return;
         }
@@ -1254,7 +1255,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             if (DEBUG && logger.isDebugEnabled()) {
                 logger.debug("Caught exception, rethrow as NotSerializableException", e);
             }
-            throw new IbisNotSerializableException(classname, e);
+            throw new NotSerializableException(classname, e);
         }
         pop_current_object();
     }
@@ -1288,7 +1289,7 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
             if (DEBUG && logger.isDebugEnabled()) {
                 logger.debug("Caught exception, rethrow as NotSerializableException", e);
             }
-            throw new IbisNotSerializableException(type.getName(), e);
+            throw new NotSerializableException(type.getName(), e);
         }
     }
 
@@ -1826,10 +1827,10 @@ public class IbisSerializationInputStream extends DataSerializationInputStream {
                     if (DEBUG && logger.isDebugEnabled()) {
                         logger.debug("Caught exception, rethrow as NotSerializableException", e);
                     }
-                    throw new IbisNotSerializableException(type.getName(), e);
+                    throw new NotSerializableException(type.getName(), e);
                 }
             } else {
-                throw new IbisNotSerializableException("Not Serializable : "
+                throw new NotSerializableException("Not Serializable : "
                         + type.toString());
             }
         }
